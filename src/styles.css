@@ -20,18 +20,19 @@ h1,h2,h3 { margin:0; } h1 { max-width:1100px; font: 800 clamp(48px, 10vw, 145px)
   .hero,.hero.scene{min-height:calc(100svh - 58px);padding:13vh 7vw 6vh}
   .hero-copy{margin:30px 0;font-size:18px}.scroll-cue{padding:14px 0}
   .thesis,.quote-bank,.archive{padding:16vw 7vw}.thesis h2,.ask h2{font-size:clamp(27px,8.2vw,38px);line-height:1.12;letter-spacing:-.07em}
+  .thesis{justify-content:space-between;padding-top:14vh;padding-bottom:12vh}.thesis:after{content:'//';color:var(--accent);font:700 22vw/.8 'Unbounded',sans-serif;letter-spacing:-.16em;align-self:flex-end;opacity:.32;text-shadow:0 0 30px color-mix(in srgb,var(--accent) 70%,transparent)}
   .highlights{padding:0 7vw}
-  .highlight,.highlight-1,.highlight-3{grid-template-columns:1fr;gap:20px;padding:8vw 0;min-height:100svh;align-content:center}
+  .highlight,.highlight-1,.highlight-3{display:flex;flex-direction:column;justify-content:space-between;gap:0;padding:6vh 0 5vh;min-height:100svh}
   .highlight-1 .highlight-copy,.highlight-3 .highlight-copy{order:0}
   .highlight-copy h3{font-size:clamp(31px,9.1vw,39px);line-height:.98;margin-bottom:17px}
   .highlight-copy > p:not(.eyebrow){font-size:16px;line-height:1.48;margin:0}
   .highlight .eyebrow{margin-bottom:14px;font-size:10px}
-  .photo-slot{min-height:185px;padding:17px;gap:7px}.photo-index{top:14px;right:16px;font-size:34px}.photo-slot small{max-width:90%;font-size:9px;line-height:1.45}
+  .photo-slot{width:100%;min-height:215px;padding:17px;gap:7px}.photo-index{top:14px;right:16px;font-size:34px}.photo-slot small{max-width:90%;font-size:9px;line-height:1.45}
   .stat{margin-top:20px;align-items:center;gap:13px;flex-wrap:wrap}.stat strong{font-size:clamp(53px,16vw,68px)}.stat span{font-size:9px}
-  .quote-bank{min-height:100svh}.quote-bank blockquote{font-size:clamp(28px,8.4vw,37px);line-height:1.08}.quote-bank blockquote+blockquote{margin-top:26px}
-  .archive.scene{min-height:100svh}.archive > .eyebrow{margin-bottom:12px}.archive details{min-height:55px}.archive summary{grid-template-columns:48px 1fr 28px;align-items:center;padding:17px 0;font-size:17px}.archive details p{margin:0 24px 20px 48px;font-size:15px}.archive summary span,.archive summary b{font-size:10px}
-  .ask{min-height:100svh;padding:18vw 7vw}.ask .eyebrow{margin-bottom:25px}.ask h2{margin:22px auto 35px}.ask-intro{font-size:11px;line-height:1.55}.portal-button{width:100%;justify-content:space-between;padding:17px 18px;font-size:10px;line-height:1.4;text-align:left}.portal-note{font-size:14px}
+  .quote-bank{min-height:100svh;justify-content:space-between;padding-top:12vh;padding-bottom:10vh}.quote-bank blockquote{font-size:clamp(28px,8.4vw,37px);line-height:1.08}.quote-bank blockquote+blockquote{margin-top:26px}
+  .archive.scene{min-height:100svh;justify-content:space-between;padding-top:11vh;padding-bottom:8vh}.archive > .eyebrow{margin-bottom:12px}.archive details{min-height:55px}.archive summary{grid-template-columns:48px 1fr 28px;align-items:center;padding:17px 0;font-size:17px}.archive details p{margin:0 24px 20px 48px;font-size:15px}.archive summary span,.archive summary b{font-size:10px}
+  .ask{min-height:100svh;padding:14vh 7vw 10vh;justify-content:space-between}.ask .eyebrow{margin-bottom:25px}.ask h2{margin:22px auto 35px}.ask-intro{font-size:11px;line-height:1.55}.portal-button{width:100%;justify-content:space-between;padding:17px 18px;font-size:10px;line-height:1.4;text-align:left}.portal-note{font-size:14px}
   footer{padding:25px 7vw;flex-direction:column;align-items:flex-start;line-height:1.5}
 }
-@media (max-width: 380px) { .masthead{font-size:9px}.hero{padding-top:11vh}.highlight-copy h3{font-size:30px}.photo-slot{min-height:165px}.highlight,.highlight-1,.highlight-3{gap:16px;padding:6vw 0} }
+@media (max-width: 380px) { .masthead{font-size:9px}.hero{padding-top:11vh}.highlight-copy h3{font-size:30px}.photo-slot{min-height:185px}.highlight,.highlight-1,.highlight-3{padding:5vh 0 4vh} }
 @media (prefers-reduced-motion: reduce) { *,*:before,*:after { scroll-behavior:auto!important; transition:none!important; animation:none!important; } }
