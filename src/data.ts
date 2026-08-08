@@ -1,9 +1,10 @@
 export type Highlight = { eyebrow: string; title: string; copy: string; stat?: string; statLabel?: string; media: string }
 export type Memory = { title: string; copy: string }
+export type Quote = { text: string; source?: string; context?: string }
 export type Teacher = {
   slug: 'renaldi' | 'tymeson' | 'hanley'
   name: string; honorific: string; role: string; archetype: string; accent: string; accentSoft: string
-  opener: string; thesis: string; highlights: Highlight[]; archive: Memory[]; quotes: string[]; request: string
+  opener: string; thesis: string; highlights: Highlight[]; archive: Memory[]; quotes: Quote[]; request: string
 }
 
 export const recommendationPortalUrl = ''
@@ -25,7 +26,8 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
       { title: 'Chicago', copy: 'Traveling together for PF Nationals—and getting to see how far the work could take us.' },
       { title: 'Washington, D.C.', copy: 'Nationals, the Aerospace Museum, and the Smithsonian: a final chapter with a lot of momentum behind it.' }
     ],
-    quotes: ['“The strongest arguments were never just spoken. They were built.”'],
+    // Add a quote card here whenever you have an exact Renaldi quote to preserve.
+    quotes: [],
     request: 'As I take the next step, I would be incredibly grateful if you would consider writing a letter of recommendation for me. Your perspective on my growth—as a student, teammate, and speaker—would mean a great deal.'
   },
   tymeson: {
@@ -46,7 +48,11 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
       { title: 'Final-exam precision', copy: 'The generator forecast two trick questions; the final ended at 119/120, one point short only because an electric-field direction was omitted.' },
       { title: 'Beyond class', copy: 'Your confidence in my coding even led to a job through your pickleball buddies.' }
     ],
-    quotes: ['“Good work Hassaan!”', '“This is great… beware of Swamp questions… and you have too much time on your hands (in a good way).”', '“Truer words were never spoken…”'],
+    quotes: [
+      { text: '“Good work Hassaan!”', source: 'MR. TYMESON', context: 'After the Die Hard Monte Carlo simulation' },
+      { text: '“This is great… beware of Swamp questions… and you have too much time on your hands (in a good way).”', source: 'MR. TYMESON', context: 'On the midterm test-generator analysis' },
+      { text: '“Truer words were never spoken…”', source: 'MR. TYMESON', context: 'In response to: “Modern quantum mechanics: the biggest conspiracy since the moon landing.”' }
+    ],
     request: 'As I move forward, I would be honored if you would write a letter of recommendation for me. I hope it can reflect the curiosity, initiative, and joy in learning that your classroom made possible.'
   },
   hanley: {
@@ -65,7 +71,8 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
       { title: 'Advent of Code', copy: 'From second place in year one to first place at school in year two.' },
       { title: 'A better second run', copy: 'The second Siena Gold competition ended in third place, a trophy, and proof that the first-year loss had taught us something.' }
     ],
-    quotes: ['“The best systems make everyone around them more capable.”'],
+    // Add a quote card here whenever you have an exact Hanley quote to preserve.
+    quotes: [],
     request: 'As I head into what comes next, I would be so grateful if you would write a letter of recommendation for me. Your view of my growth from Java student to builder and collaborator would be especially meaningful.'
   }
 }

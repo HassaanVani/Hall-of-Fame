@@ -63,7 +63,7 @@ function App() {
       </article>)}
     </div>
 
-    <section className="quote-bank scene" aria-label="Words worth keeping"><p className="eyebrow">FIELD NOTES // WORDS WORTH KEEPING</p>{teacher.quotes.map(quote => <blockquote key={quote}>{quote}</blockquote>)}</section>
+    {teacher.quotes.length > 0 && <section className="quote-bank scene" aria-label="Words worth keeping"><p className="eyebrow">FIELD NOTES // WORDS WORTH KEEPING</p><div className="quote-stack">{teacher.quotes.map((quote, index) => <blockquote className="quote-card" key={`${quote.text}-${index}`}><p>{quote.text}</p>{(quote.source || quote.context) && <div className="quote-meta"><span>{quote.source}</span><span>{quote.context}</span></div>}</blockquote>)}</div></section>}
 
     <section className="archive scene"><p className="eyebrow">THE ARCHIVE // MORE THAT STAYED WITH ME</p><div>{teacher.archive.map((memory, index) => <details key={memory.title}><summary><span>0{index + 1}</span>{memory.title}<b>+</b></summary><p>{memory.copy}</p></details>)}</div></section>
 
