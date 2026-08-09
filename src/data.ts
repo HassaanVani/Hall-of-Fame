@@ -50,7 +50,7 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
     ],
     quotes: [
       { text: '“Good work Hassaan!”', source: 'MR. TYMESON', context: 'After the Die Hard Monte Carlo simulation' },
-      { text: '“This is great… beware of Swamp questions… and you have too much time on your hands (in a good way).”', source: 'MR. TYMESON', context: 'On the midterm test-generator analysis' },
+      { text: '“You have too much time on your hands (in a good way).”', source: 'MR. TYMESON', context: 'On the midterm test-generator analysis' },
       { text: '“Truer words were never spoken…”', source: 'MR. TYMESON', context: 'In response to: “Modern quantum mechanics: the biggest conspiracy since the moon landing.”' }
     ],
     request: 'As I move forward, I would be honored if you would write a letter of recommendation for me. I hope it can reflect the curiosity, initiative, and joy in learning that your classroom made possible.'

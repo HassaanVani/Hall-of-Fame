@@ -5,7 +5,7 @@ const validSlugs = Object.keys(teachers) as Teacher['slug'][]
 
 function useTeacher() {
   const slug = window.location.pathname.replace(/^\//, '').split('/')[0] as Teacher['slug']
-  return teachers[validSlugs.includes(slug) ? slug : 'renaldi']
+  return validSlugs.includes(slug) ? teachers[slug] : undefined
 }
 
 function Progress() {
@@ -36,8 +36,35 @@ function PhotoPanel({ label, image, index }: { label: string; image?: string; in
   </div>
 }
 
+function Home() {
+  useSceneTransitions()
+  useEffect(() => {
+    document.title = 'Hassaan Vani — Hall of Fame'
+    document.documentElement.style.setProperty('--accent', '#CCFF00')
+    document.documentElement.style.setProperty('--accent-soft', '#e1ff6b')
+  }, [])
+  return <main className="intro-page">
+    <Progress />
+    <div className="scanlines" aria-hidden="true" />
+    <header className="masthead"><span className="signal" /><span>HASSAAN VANI // PRIVATE EDITION</span><span>ORIGIN FILE</span></header>
+    <section className="intro-hero scene">
+      <p className="eyebrow">2026 RECAP // CLASS OF 2027</p>
+      <p className="subject">HASSAAN VANI PRESENTS</p>
+      <h1>THE <span>CANDIDATE.</span></h1>
+      <p>One curious mind. A growing collection of improbable projects. Still just getting started.</p>
+      <a className="scroll-cue" href="#hype">SCROLL TO UNWRAP <b>↓</b></a>
+    </section>
+    <section id="hype" className="intro-manifesto scene"><p className="eyebrow">TOP GENRES // 2026</p><h2>BUILD.<br /><span>ARGUE.</span><br />TEST.<br /><span>REPEAT.</span></h2><p>History gave the questions. Physics made them measurable. Code made them useful. Debate made them impossible to ignore.</p></section>
+    <section className="intro-stats scene" aria-label="Year in numbers"><p className="eyebrow">THE YEAR, DECODED</p><div className="wrapped-stats"><article><strong>4 × 5</strong><span>AP PHYSICS EXAMS</span></article><article><strong>38/38</strong><span>ELECTROMAGNETISM</span></article><article><strong>3RD</strong><span>SIENA GOLD</span></article><article><strong>1ST</strong><span>ADVENT OF CODE</span></article></div><p className="stats-caption">Not a list of outcomes. Evidence of a habit: go one layer deeper.</p></section>
+    <section className="intro-collage scene"><p className="eyebrow">MOST-REPLAYED MODE</p><h2>MAKE THE THING<br />THAT MAKES THE<br /><span>ROOM BETTER.</span></h2><div className="collage-grid" aria-hidden="true"><i /><i /><i /><i /></div><p>From modeling a movie fall a million times to rebuilding a school resource, the goal stayed constant: turn curiosity into something other people can use.</p></section>
+    <section className="intro-outro scene"><p className="eyebrow">NEXT UP // 2027 AND BEYOND</p><p className="ask-intro">THE QUEUE IS STILL GROWING.</p><h2>More questions.<br />More systems.<br /><span>More to build.</span></h2><p>Thanks for being part of the beginning.</p></section>
+    <footer><span>END OF INTRODUCTION</span><span>HASSAAN VANI // THE CANDIDATE</span></footer>
+  </main>
+}
+
 function App() {
   const teacher = useTeacher()
+  if (!teacher) return <Home />
   const portalReady = Boolean(recommendationPortalUrl)
   useSceneTransitions()
   useEffect(() => { document.title = `${teacher.honorific} — Hall of Fame`; document.documentElement.style.setProperty('--accent', teacher.accent); document.documentElement.style.setProperty('--accent-soft', teacher.accentSoft) }, [teacher])
