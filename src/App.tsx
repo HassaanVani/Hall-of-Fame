@@ -29,8 +29,9 @@ function useSceneTransitions() {
   }, [])
 }
 
-function PhotoPlaceholder({ label, index }: { label: string; index: number }) {
-  return <div className="photo-slot" aria-label={`Photo placeholder: ${label}`} role="img">
+function PhotoPanel({ label, image, index }: { label: string; image?: string; index: number }) {
+  return <div className={`photo-slot${image ? ' has-image' : ''}`} aria-label={image ? `Photo: ${label}` : `Photo placeholder: ${label}`} role="img">
+    {image && <img src={image} alt="" loading="lazy" />}
     <span className="photo-index">0{index + 1}</span><span>PHOTO MOMENT</span><small>{label}</small>
   </div>
 }
@@ -59,7 +60,7 @@ function App() {
     <div className="highlights" aria-label="Curated highlights">
       {teacher.highlights.map((highlight, index) => <article className={`highlight scene highlight-${index % 2}`} key={highlight.title}>
         <div className="highlight-copy"><p className="eyebrow">{highlight.eyebrow}</p><h3>{highlight.title}</h3><p>{highlight.copy}</p>{highlight.stat && <div className="stat"><strong>{highlight.stat}</strong><span>{highlight.statLabel}</span></div>}</div>
-        <PhotoPlaceholder label={highlight.media} index={index} />
+        <PhotoPanel label={highlight.media} image={highlight.image} index={index} />
       </article>)}
     </div>
 
