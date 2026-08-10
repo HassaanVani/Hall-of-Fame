@@ -29,6 +29,55 @@ function useSceneTransitions() {
   }, [])
 }
 
+function useChapterNavigation() {
+  useEffect(() => {
+    let locked = false
+    let touchStartY = 0
+    const scenes = () => [...document.querySelectorAll<HTMLElement>('.scene')]
+    const move = (direction: 1 | -1) => {
+      if (locked) return
+      const chapterList = scenes()
+      const first = chapterList[0]
+      const last = chapterList.at(-1)
+      const footer = document.querySelector<HTMLElement>('main > footer')
+      if (!first || !last) return
+      if (direction === 1 && window.scrollY < first.offsetTop - 4) {
+        locked = true; first.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.setTimeout(() => { locked = false }, 720); return
+      }
+      if (direction === -1 && footer && window.scrollY > last.offsetTop + 8) {
+        locked = true; last.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.setTimeout(() => { locked = false }, 720); return
+      }
+      const current = chapterList.reduce((closest, scene, index) => Math.abs(scene.getBoundingClientRect().top) < Math.abs(chapterList[closest].getBoundingClientRect().top) ? index : closest, 0)
+      if (direction === -1 && current === 0) {
+        locked = true; window.scrollTo({ top: 0, behavior: 'smooth' }); window.setTimeout(() => { locked = false }, 720); return
+      }
+      if (direction === 1 && current === chapterList.length - 1 && footer) {
+        locked = true; footer.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.setTimeout(() => { locked = false }, 720); return
+      }
+      const next = chapterList[Math.max(0, Math.min(chapterList.length - 1, current + direction))]
+      if (!next || next === chapterList[current]) return
+      locked = true
+      next.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      window.setTimeout(() => { locked = false }, 720)
+    }
+    const onWheel = (event: WheelEvent) => { if (Math.abs(event.deltaY) < 8) return; event.preventDefault(); move(event.deltaY > 0 ? 1 : -1) }
+    const onKey = (event: KeyboardEvent) => {
+      if (event.target instanceof HTMLDetailsElement || event.target instanceof HTMLButtonElement) return
+      if (['ArrowDown', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); move(1) }
+      if (['ArrowUp', 'PageUp'].includes(event.key)) { event.preventDefault(); move(-1) }
+    }
+    const onTouchStart = (event: TouchEvent) => { touchStartY = event.changedTouches[0]?.clientY ?? 0 }
+    const onTouchMove = (event: TouchEvent) => { event.preventDefault() }
+    const onTouchEnd = (event: TouchEvent) => { const delta = touchStartY - (event.changedTouches[0]?.clientY ?? touchStartY); if (Math.abs(delta) > 36) move(delta > 0 ? 1 : -1) }
+    window.addEventListener('wheel', onWheel, { passive: false })
+    window.addEventListener('keydown', onKey)
+    window.addEventListener('touchstart', onTouchStart, { passive: true })
+    window.addEventListener('touchmove', onTouchMove, { passive: false })
+    window.addEventListener('touchend', onTouchEnd, { passive: true })
+    return () => { window.removeEventListener('wheel', onWheel); window.removeEventListener('keydown', onKey); window.removeEventListener('touchstart', onTouchStart); window.removeEventListener('touchmove', onTouchMove); window.removeEventListener('touchend', onTouchEnd) }
+  }, [])
+}
+
 function PhotoPanel({ label, image, index }: { label: string; image?: string; index: number }) {
   return <div className={`photo-slot${image ? ' has-image' : ''}`} aria-label={image ? `Photo: ${label}` : `Photo placeholder: ${label}`} role="img">
     {image && <img src={image} alt="" loading="lazy" />}
@@ -38,6 +87,7 @@ function PhotoPanel({ label, image, index }: { label: string; image?: string; in
 
 function Home() {
   useSceneTransitions()
+  useChapterNavigation()
   useEffect(() => {
     document.title = 'Hassaan Vani — Hall of Fame'
     document.documentElement.style.setProperty('--accent', '#CCFF00')
@@ -56,7 +106,7 @@ function Home() {
     </section>
     <section id="hype" className="intro-manifesto scene"><p className="eyebrow">TOP GENRES // 2026</p><h2>BUILD.<br /><span>ARGUE.</span><br />TEST.<br /><span>REPEAT.</span></h2><p>History gave the questions. Physics made them measurable. Code made them useful. Debate made them impossible to ignore.</p></section>
     <section className="intro-stats scene" aria-label="Year in numbers"><p className="eyebrow">THE YEAR, DECODED</p><div className="wrapped-stats"><article><strong>4 × 5</strong><span>AP PHYSICS EXAMS</span></article><article><strong>38/38</strong><span>ELECTROMAGNETISM</span></article><article><strong>3RD</strong><span>SIENA GOLD</span></article><article><strong>1ST</strong><span>ADVENT OF CODE</span></article></div><p className="stats-caption">Not a list of outcomes. Evidence of a habit: go one layer deeper.</p></section>
-    <section className="intro-collage scene"><p className="eyebrow">MOST-REPLAYED MODE</p><h2>MAKE THE THING<br />THAT MAKES THE<br /><span>ROOM BETTER.</span></h2><div className="collage-grid" aria-hidden="true"><i /><i /><i /><i /></div><p>From modeling a movie fall a million times to rebuilding a school resource, the goal stayed constant: turn curiosity into something other people can use.</p></section>
+    <section className="intro-collage scene"><p className="eyebrow">MOST-REPLAYED MODE</p><h2>MAKE THE<br />THING THAT MAKES<br /><span>THE ROOM BETTER.</span></h2><div className="signal-orbit" aria-hidden="true"><i /><i /><span>IDEAS → SYSTEMS → IMPACT</span></div><p>From modeling a movie fall a million times to rebuilding a school resource, the goal stayed constant: turn curiosity into something other people can use.</p></section>
     <section className="intro-outro scene"><p className="eyebrow">NEXT UP // 2027 AND BEYOND</p><p className="ask-intro">THE QUEUE IS STILL GROWING.</p><h2>More questions.<br />More systems.<br /><span>More to build.</span></h2><p>Thanks for being part of the beginning.</p></section>
     <footer><span>END OF INTRODUCTION</span><span>HASSAAN VANI // THE CANDIDATE</span></footer>
   </main>
@@ -67,6 +117,7 @@ function App() {
   if (!teacher) return <Home />
   const portalReady = Boolean(recommendationPortalUrl)
   useSceneTransitions()
+  useChapterNavigation()
   useEffect(() => { document.title = `${teacher.honorific} — Hall of Fame`; document.documentElement.style.setProperty('--accent', teacher.accent); document.documentElement.style.setProperty('--accent-soft', teacher.accentSoft) }, [teacher])
 
   return <main>
@@ -98,8 +149,8 @@ function App() {
     <section className="unsaid scene"><p className="eyebrow">THINGS I NEVER GOT TO SAY TO YOU</p><div>{teacher.unsaid.map((thought, index) => <p key={thought}><span>0{index + 1}</span>{thought}</p>)}</div></section>
 
     <section className="ask scene"><p className="eyebrow">FINAL TRANSMISSION // THE ASK</p><p className="ask-intro">Every achievement here has your fingerprint on it.</p><h2>{teacher.request}</h2>{portalReady ? <a className="portal-button" href={recommendationPortalUrl}>OPEN RECOMMENDATION PORTAL <span>↗</span></a> : <button className="portal-button" disabled title="A recommendation portal URL will be added here">RECOMMENDATION PORTAL — COMING SOON <span>↗</span></button>}<p className="portal-note">Thank you for being part of this chapter.</p></section>
-
     <footer><span>END OF TRANSMISSION</span><span>{teacher.honorific.toUpperCase()} // {teacher.archetype}</span></footer>
+
   </main>
 }
 
