@@ -4,7 +4,7 @@ export type Quote = { text: string; source?: string; context?: string }
 export type Teacher = {
   slug: 'renaldi' | 'tymeson' | 'hanley'
   name: string; honorific: string; role: string; archetype: string; accent: string; accentSoft: string
-  opener: string; thesis: string; highlights: Highlight[]; archive: Memory[]; quotes: Quote[]; request: string
+  opener: string; thesis: string; highlights: Highlight[]; archive: Memory[]; quotes: Quote[]; unsaid: string[]; request: string
 }
 
 export const recommendationPortalUrl = ''
@@ -28,6 +28,10 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
     ],
     // Add a quote card here whenever you have an exact Renaldi quote to preserve.
     quotes: [],
+    unsaid: [
+      'Thank you for treating every round as more than a result. You taught me that a voice becomes meaningful when it is built on preparation, empathy, and the willingness to get back up.',
+      'The wins, the travel, and the jokes are unforgettable—but what will stay with me most is that you made me believe I could take up space in rooms that once felt far too big.'
+    ],
     request: 'As I take the next step, I would be incredibly grateful if you would consider writing a letter of recommendation for me. Your perspective on my growth—as a student, teammate, and speaker—would mean a great deal.'
   },
   tymeson: {
@@ -53,6 +57,10 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
       { text: '“You have too much time on your hands (in a good way).”', source: 'MR. TYMESON', context: 'On the midterm test-generator analysis' },
       { text: '“Truer words were never spoken…”', source: 'MR. TYMESON', context: 'In response to: “Modern quantum mechanics: the biggest conspiracy since the moon landing.”' }
     ],
+    unsaid: [
+      'Thank you for never making curiosity feel like a distraction. You made room for the question behind the question, even when it arrived as a movie simulation, a test generator, or a very unnecessary extra layer.',
+      'I will remember that physics can be rigorous without being joyless—and that the best classes make you want to come back even after you have already taken them once.'
+    ],
     request: 'As I move forward, I would be honored if you would write a letter of recommendation for me. I hope it can reflect the curiosity, initiative, and joy in learning that your classroom made possible.'
   },
   hanley: {
@@ -71,8 +79,15 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
       { title: 'Advent of Code', copy: 'From second place in year one to first place at school in year two.' },
       { title: 'A better second run', copy: 'The second Siena Gold competition ended in third place, a trophy, and proof that the first-year loss had taught us something.' }
     ],
-    // Add a quote card here whenever you have an exact Hanley quote to preserve.
-    quotes: [],
+    quotes: [
+      { text: '“No can doey Hong Kong Fuey.”', source: 'MR. HANLEY' },
+      { text: '“Get back to work you jamokes I don’t pay you to sit around all day.”', source: 'MR. HANLEY' },
+      { text: '“Hit windows L on your computadoras ya ding dongs.”', source: 'MR. HANLEY' }
+    ],
+    unsaid: [
+      'Thank you for seeing something in the work before it was polished. You gave me hard problems, trusted me with real systems, and let me become someone other people could rely on.',
+      'I came into class to learn Java. I am leaving with a much larger idea of what it means to build: make something useful, make it clear, and make the people around you more capable.'
+    ],
     request: 'As I head into what comes next, I would be so grateful if you would write a letter of recommendation for me. Your view of my growth from Java student to builder and collaborator would be especially meaningful.'
   }
 }

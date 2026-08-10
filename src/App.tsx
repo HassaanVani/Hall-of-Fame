@@ -95,6 +95,8 @@ function App() {
 
     <section className="archive scene"><p className="eyebrow">THE ARCHIVE // MORE THAT STAYED WITH ME</p><div>{teacher.archive.map((memory, index) => <details key={memory.title}><summary><span>0{index + 1}</span>{memory.title}<b>+</b></summary><p>{memory.copy}</p></details>)}</div></section>
 
+    <section className="unsaid scene"><p className="eyebrow">THINGS I NEVER GOT TO SAY TO YOU</p><div>{teacher.unsaid.map((thought, index) => <p key={thought}><span>0{index + 1}</span>{thought}</p>)}</div></section>
+
     <section className="ask scene"><p className="eyebrow">FINAL TRANSMISSION // THE ASK</p><p className="ask-intro">Every achievement here has your fingerprint on it.</p><h2>{teacher.request}</h2>{portalReady ? <a className="portal-button" href={recommendationPortalUrl}>OPEN RECOMMENDATION PORTAL <span>↗</span></a> : <button className="portal-button" disabled title="A recommendation portal URL will be added here">RECOMMENDATION PORTAL — COMING SOON <span>↗</span></button>}<p className="portal-note">Thank you for being part of this chapter.</p></section>
 
     <footer><span>END OF TRANSMISSION</span><span>{teacher.honorific.toUpperCase()} // {teacher.archetype}</span></footer>
