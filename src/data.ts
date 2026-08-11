@@ -1,5 +1,6 @@
 export type Highlight = { eyebrow: string; title: string; copy: string; stat?: string; statLabel?: string; media: string; image?: string }
-export type Memory = { title: string; copy: string }
+export type ArchiveAsset = { kind: 'image' | 'video'; src: string; label: string }
+export type Memory = { title: string; copy: string; media?: ArchiveAsset[] }
 export type Quote = { text: string; source?: string; context?: string }
 export type Teacher = {
   slug: 'renaldi' | 'tymeson' | 'hanley'
@@ -22,9 +23,9 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
       { eyebrow: 'THE MEMORY // 05', title: 'Standard Oil, but make it comedy.', copy: 'The APUSH final parody of Standard Oil v. U.S. was exactly what made your classroom unforgettable: serious ideas, full commitment, and permission to be funny.', media: 'Nationals in Washington, D.C.', image: '/photos/nationals-dc.jpg' }
     ],
     archive: [
-      { title: 'National qualifier', copy: 'A first-place finish that turned “maybe someday” into a national bid.' },
-      { title: 'Chicago', copy: 'Traveling together for PF Nationals—and getting to see how far the work could take us.' },
-      { title: 'Washington, D.C.', copy: 'Nationals, the Aerospace Museum, and the Smithsonian: a final chapter with a lot of momentum behind it.' }
+      { title: 'National qualifier', copy: 'A first-place finish that turned “maybe someday” into a national bid.', media: [{ kind: 'image', src: '/photos/nationals-spade-2025.jpg', label: 'SPADE at Nationals, 2025' }] },
+      { title: 'Chicago', copy: 'Traveling together for PF Nationals—and getting to see how far the work could take us.', media: [{ kind: 'image', src: '/photos/nationals-both-years.jpg', label: 'Chicago and Nationals wristbands' }] },
+      { title: 'Washington, D.C.', copy: 'Nationals, the Aerospace Museum, and the Smithsonian: a final chapter with a lot of momentum behind it.', media: [{ kind: 'image', src: '/photos/nationals-dc.jpg', label: 'Nationals in Washington, D.C.' }, { kind: 'image', src: '/photos/nationals-dc-dinner.jpg', label: 'D.C. Nationals dinner' }] }
     ],
     // Add a quote card here whenever you have an exact Renaldi quote to preserve.
     quotes: [],
@@ -46,8 +47,8 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
       { eyebrow: 'MR. PHYSICS // 05', title: 'Four AP Physics 5s.', copy: 'After self-studying all four AP Physics exams in your orbit, I sent the screenshot and called myself “Mr. Physics.” Your reply suggested I might end up running a few classes in Room 126.', stat: '4 × 5', statLabel: 'AP PHYSICS SCORES', media: 'Physics group', image: '/photos/tymeson-group.jpg' }
     ],
     archive: [
-      { title: 'Science Bowl, regional second', copy: 'We took second at regionals together—with first still squarely in sight next year.' },
-      { title: 'Capacitor lore', copy: 'A parallel-plate capacitor, concern over accidental shocks, and a spectacular capacitor explosion caught on video.' },
+      { title: 'Science Bowl, regional second', copy: 'We took second at regionals together—with first still squarely in sight next year.', media: [{ kind: 'image', src: '/photos/science-bowl-second.jpg', label: 'Science Bowl regional second place' }] },
+      { title: 'Capacitor lore', copy: 'A parallel-plate capacitor, concern over accidental shocks, and a spectacular capacitor explosion caught on video.', media: [{ kind: 'video', src: '/videos/blowing-up-capacitor.mov', label: 'Capacitor explosion video' }] },
       { title: 'Cluster questions', copy: 'When the Regents became cluster-based, the test generator gained another layer and produced a dozen new practice clusters.' },
       { title: 'Final-exam precision', copy: 'The generator forecast two trick questions; the final ended at 119/120, one point short only because an electric-field direction was omitted.' },
       { title: 'Beyond class', copy: 'Your confidence in my coding even led to a job through your pickleball buddies.' }
@@ -75,9 +76,9 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
       { eyebrow: 'THE PAYOFF // 05', title: 'We cooked.', copy: 'In year two, I won Advent of Code at school, earned 100 on every test, and helped our Siena Gold team take third place—and bring home a trophy.', stat: '3RD', statLabel: 'SIENA GOLD', media: 'Siena Gold trophy, 2026', image: '/photos/siena-trophy-2026.jpg' }
     ],
     archive: [
-      { title: 'Perfect tests', copy: 'A run of 100s that made the day-to-day work feel as rewarding as the big competitions.' },
-      { title: 'Advent of Code', copy: 'From second place in year one to first place at school in year two.' },
-      { title: 'A better second run', copy: 'The second Siena Gold competition ended in third place, a trophy, and proof that the first-year loss had taught us something.' }
+      { title: 'Perfect tests', copy: 'A run of 100s that made the day-to-day work feel as rewarding as the big competitions.', media: [{ kind: 'image', src: '/photos/hanley-shenanigans.jpg', label: 'In Mr. Hanley’s room' }] },
+      { title: 'Advent of Code', copy: 'From second place in year one to first place at school in year two.', media: [{ kind: 'image', src: '/photos/hanley-selfie-2026.jpg', label: 'Programming teammates, 2026' }] },
+      { title: 'A better second run', copy: 'The second Siena Gold competition ended in third place, a trophy, and proof that the first-year loss had taught us something.', media: [{ kind: 'image', src: '/photos/hanley-siena-2026.jpg', label: 'Siena Programming Competition, 2026' }, { kind: 'image', src: '/photos/siena-trophy-2026.jpg', label: 'Siena Gold trophy' }] }
     ],
     quotes: [
       { text: '“No can doey Hong Kong Fuey.”', source: 'MR. HANLEY' },

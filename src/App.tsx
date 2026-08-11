@@ -32,8 +32,13 @@ function useSceneTransitions() {
 function useChapterNavigation() {
   useEffect(() => {
     let locked = false
+    let unlockTimer = 0
     let touchStartY = 0
     const scenes = () => [...document.querySelectorAll<HTMLElement>('.scene')]
+    const keepLocked = () => {
+      window.clearTimeout(unlockTimer)
+      unlockTimer = window.setTimeout(() => { locked = false }, 650)
+    }
     const move = (direction: 1 | -1) => {
       if (locked) return
       const chapterList = scenes()
@@ -42,25 +47,24 @@ function useChapterNavigation() {
       const footer = document.querySelector<HTMLElement>('main > footer')
       if (!first || !last) return
       if (direction === 1 && window.scrollY < first.offsetTop - 4) {
-        locked = true; first.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.setTimeout(() => { locked = false }, 720); return
+        locked = true; keepLocked(); first.scrollIntoView({ behavior: 'smooth', block: 'start' }); return
       }
       if (direction === -1 && footer && window.scrollY > last.offsetTop + 8) {
-        locked = true; last.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.setTimeout(() => { locked = false }, 720); return
+        locked = true; keepLocked(); last.scrollIntoView({ behavior: 'smooth', block: 'start' }); return
       }
       const current = chapterList.reduce((closest, scene, index) => Math.abs(scene.getBoundingClientRect().top) < Math.abs(chapterList[closest].getBoundingClientRect().top) ? index : closest, 0)
       if (direction === -1 && current === 0) {
-        locked = true; window.scrollTo({ top: 0, behavior: 'smooth' }); window.setTimeout(() => { locked = false }, 720); return
+        locked = true; keepLocked(); window.scrollTo({ top: 0, behavior: 'smooth' }); return
       }
       if (direction === 1 && current === chapterList.length - 1 && footer) {
-        locked = true; footer.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.setTimeout(() => { locked = false }, 720); return
+        locked = true; keepLocked(); footer.scrollIntoView({ behavior: 'smooth', block: 'start' }); return
       }
       const next = chapterList[Math.max(0, Math.min(chapterList.length - 1, current + direction))]
       if (!next || next === chapterList[current]) return
-      locked = true
+      locked = true; keepLocked()
       next.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      window.setTimeout(() => { locked = false }, 720)
     }
-    const onWheel = (event: WheelEvent) => { if (Math.abs(event.deltaY) < 8) return; event.preventDefault(); move(event.deltaY > 0 ? 1 : -1) }
+    const onWheel = (event: WheelEvent) => { if (Math.abs(event.deltaY) < 8) return; event.preventDefault(); if (locked) { keepLocked(); return }; move(event.deltaY > 0 ? 1 : -1) }
     const onKey = (event: KeyboardEvent) => {
       if (event.target instanceof HTMLDetailsElement || event.target instanceof HTMLButtonElement) return
       if (['ArrowDown', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); move(1) }
@@ -74,7 +78,7 @@ function useChapterNavigation() {
     window.addEventListener('touchstart', onTouchStart, { passive: true })
     window.addEventListener('touchmove', onTouchMove, { passive: false })
     window.addEventListener('touchend', onTouchEnd, { passive: true })
-    return () => { window.removeEventListener('wheel', onWheel); window.removeEventListener('keydown', onKey); window.removeEventListener('touchstart', onTouchStart); window.removeEventListener('touchmove', onTouchMove); window.removeEventListener('touchend', onTouchEnd) }
+    return () => { window.clearTimeout(unlockTimer); window.removeEventListener('wheel', onWheel); window.removeEventListener('keydown', onKey); window.removeEventListener('touchstart', onTouchStart); window.removeEventListener('touchmove', onTouchMove); window.removeEventListener('touchend', onTouchEnd) }
   }, [])
 }
 
@@ -144,7 +148,7 @@ function App() {
 
     {teacher.quotes.length > 0 && <section className="quote-bank scene" aria-label="Words worth keeping"><p className="eyebrow">FIELD NOTES // WORDS WORTH KEEPING</p><div className="quote-stack">{teacher.quotes.map((quote, index) => <blockquote className="quote-card" key={`${quote.text}-${index}`}><p>{quote.text}</p>{(quote.source || quote.context) && <div className="quote-meta"><span>{quote.source}</span><span>{quote.context}</span></div>}</blockquote>)}</div></section>}
 
-    <section className="archive scene"><p className="eyebrow">THE ARCHIVE // MORE THAT STAYED WITH ME</p><div>{teacher.archive.map((memory, index) => <details key={memory.title}><summary><span>0{index + 1}</span>{memory.title}<b>+</b></summary><p>{memory.copy}</p></details>)}</div></section>
+    <section className="archive scene"><p className="eyebrow">THE ARCHIVE // MORE THAT STAYED WITH ME</p><div>{teacher.archive.map((memory, index) => <details key={memory.title}><summary><span>0{index + 1}</span>{memory.title}<b>+</b></summary><p>{memory.copy}</p>{memory.media && <div className="archive-media">{memory.media.map(asset => asset.kind === 'image' ? <img key={asset.src} src={asset.src} alt={asset.label} loading="lazy" /> : <video key={asset.src} controls playsInline preload="metadata" aria-label={asset.label}><source src={asset.src} type="video/quicktime" /></video>)}</div>}</details>)}</div></section>
 
     <section className="unsaid scene"><p className="eyebrow">THINGS I NEVER GOT TO SAY TO YOU</p><div>{teacher.unsaid.map((thought, index) => <p key={thought}><span>0{index + 1}</span>{thought}</p>)}</div></section>
 

@@ -101,4 +101,7 @@ main .hero.scene { height:100dvh; min-height:100dvh; max-height:100dvh; }
 }
 
 .signal-orbit span { max-width:72%; padding:8px 10px; border:1px solid rgba(255,255,255,.28); background:rgba(5,5,5,.9); color:#fff; text-shadow:0 1px 8px #000; }
+
+.archive-media { display:flex; gap:10px; margin:0 40px 24px 70px; height:112px; }.archive-media img,.archive-media video { width:auto; min-width:150px; max-width:230px; height:112px; border:1px solid color-mix(in srgb,var(--accent) 55%,transparent); background:#050505; object-fit:contain; }.archive-media video { min-width:185px; }
+@media (max-width: 720px) { .archive-media { height:82px; gap:8px; margin:0 20px 16px 48px; }.archive-media img,.archive-media video { min-width:110px; max-width:145px; height:82px; }.archive-media video { min-width:145px; } }
 @media (prefers-reduced-motion: reduce) { *,*:before,*:after { scroll-behavior:auto!important; transition:none!important; animation:none!important; } }
