@@ -38,13 +38,13 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
   tymeson: {
     slug: 'tymeson', name: 'Tymeson', honorific: 'Mr. Tymeson', role: 'Physics · Science Bowl Supervisor', archetype: 'THE PHYSICIST', accent: '#CCFF00', accentSoft: '#e1ff6b',
     opener: 'A multi-year experiment in curiosity, momentum, and seeing how far an extra layer of analysis can go.',
-    thesis: 'Your classroom made physics feel less like an answer key and more like an invitation to test every interesting idea all the way through.',
+    thesis: 'Your classroom made physics (and everything else) feel less like an answer key and more like an invitation to test every interesting idea all the way through.',
     highlights: [
-      { eyebrow: 'THE LONG ARC // 01', title: 'From a bad physics main to a second year in the room.', copy: 'Science Bowl began in freshman year, when I was a very bad physics main. By junior year, I was in your physics class—and the following semester, I chose to take another one of your classes because I did not want the learning to end.', media: 'Physics group', image: '/photos/tymeson-group.jpg' },
+      { eyebrow: 'THE LONG ARC // 01', title: 'From a bad physics main to a second year in the room.', copy: 'Science Bowl began in freshman year, when I was a very bad physics main. By junior year, I was in your physics class—and the following semester, I went to 2 seperate Physics classes at once because I did not want the learning to end.', media: 'Physics group', image: '/photos/tymeson-group.jpg' },
       { eyebrow: 'MONTE CARLO // 02', title: 'Could Hans really fall?', copy: 'A debate about Die Hard turned into a million-simulation investigation. Accounting for angular momentum and the fall, the window broke in 48.88% of runs—enough for Hans to fall.', stat: '48.88%', statLabel: 'WINDOW-BREAK SIMULATIONS', media: 'Science Bowl at MIT', image: '/photos/science-bowl-mit.jpg' },
       { eyebrow: 'STUDY SYSTEM // 03', title: 'Practice tests, modeled.', copy: 'For the eight-question midterm, I built both a mathematical decision model and a Gemini-powered test generator with a Monte Carlo layer. Its lesson: beware of Swamp questions.', media: 'Add a screenshot of the exam generator' },
       { eyebrow: 'ELECTROMAGNETISM // 04', title: 'Thirty-eight out of thirty-eight.', copy: 'I was the only student across three classes to earn a 38/38 on the electromagnetism test. You even had to curve the test down.', stat: '38/38', statLabel: 'ELECTROMAGNETISM', media: 'Science Bowl regional second place', image: '/photos/science-bowl-second.jpg' },
-      { eyebrow: 'MR. PHYSICS // 05', title: 'Four AP Physics 5s.', copy: 'After self-studying all four AP Physics exams in your orbit, I sent the screenshot and called myself “Mr. Physics.” Your reply suggested I might end up running a few classes in Room 126.', stat: '4 × 5', statLabel: 'AP PHYSICS SCORES', media: 'Physics group', image: '/photos/tymeson-group.jpg' }
+      { eyebrow: 'MR. PHYSICS // 05', title: 'Four AP Physics 5s.', copy: 'After self-studying all four AP Physics exams in your orbit, I sent the screenshot and called myself “Mr. Physics.” I never told you but I actually got a 5 in every one of the 10 APs I took.', stat: '4 × 5', statLabel: 'AP PHYSICS SCORES', media: 'Physics group', image: '/photos/tymeson-group.jpg' }
     ],
     archive: [
       { title: 'Science Bowl, regional second', copy: 'We took second at regionals together—with first still squarely in sight next year.', media: [{ kind: 'image', src: '/photos/science-bowl-second.jpg', label: 'Science Bowl regional second place' }] },
@@ -59,8 +59,9 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
       { text: '“Truer words were never spoken…”', source: 'MR. TYMESON', context: 'In response to: “Modern quantum mechanics: the biggest conspiracy since the moon landing.”' }
     ],
     unsaid: [
-      'Thank you for never making curiosity feel like a distraction. You made room for the question behind the question, even when it arrived as a movie simulation, a test generator, or a very unnecessary extra layer.',
-      'I will remember that physics can be rigorous without being joyless—and that the best classes make you want to come back even after you have already taken them once.'
+      'Thank you for never making curiosity feel like a distraction. You made room for the question behind the question.',
+      'I enjoyed and will remember everything we always talked about in class that wasn\'t on topic, from Lockheed Martin to ping pong on the long table to "sticktoitiveness".',
+      'Your class was my first ever formal Physics class, and even though I had a passion I have to attribute my steadfastness to you, especially in the second half. At some points it barely felt like a class, I just had fun time while doing a random physics lab.'
     ],
     request: 'As I move forward, I would be honored if you would write a letter of recommendation for me. I hope it can reflect the curiosity, initiative, and joy in learning that your classroom made possible.'
   },
