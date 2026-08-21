@@ -82,18 +82,27 @@ function useChapterNavigation() {
   }, [])
 }
 
-function PhotoPanel({ label, image, index }: { label: string; image?: string; index: number }) {
-  return <div className={`photo-slot${image ? ' has-image' : ''}`} aria-label={image ? `Photo: ${label}` : `Photo placeholder: ${label}`} role="img">
-    {image && <img src={image} alt="" loading="lazy" />}
-    <span className="photo-index">0{index + 1}</span><span>PHOTO MOMENT</span><small>{label}</small>
+function PhotoPanel({ label, image, images, index }: { label: string | string[]; image?: string; images?: string[]; index: number }) {
+  const labels = Array.isArray(label) ? label : [label]
+  const sources = images ?? (image ? [image] : [])
+  const gallery = labels.length > 1 || sources.length > 1
+  return <div className={`photo-slot${sources.length ? ' has-image' : ''}${gallery ? ' photo-gallery' : ''}`} aria-label={sources.length ? `Photo: ${labels.join(', ')}` : `Photo placeholders: ${labels.join(', ')}`} role="img">
+    {gallery ? <div className={`photo-grid count-${labels.length}`}>{labels.map((item, itemIndex) => <div className="photo-tile" key={item}>{sources[itemIndex] && <img src={sources[itemIndex]} alt="" loading="eager" />}<small>{item}</small></div>)}</div> : image && <img src={image} alt="" loading="eager" />}
+    <span className="photo-index">0{index + 1}</span><span>{gallery ? 'PHOTO SEQUENCE' : 'PHOTO MOMENT'}</span><small>{gallery ? `${labels.length} RELATED MOMENTS` : label}</small>
   </div>
+}
+
+function Archive({ teacher }: { teacher: Teacher }) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const active = activeIndex === null ? undefined : teacher.archive[activeIndex]
+  return <section className="archive scene"><p className="eyebrow">THE ARCHIVE // MORE THAT STAYED WITH ME</p><div className="archive-list">{teacher.archive.map((memory, index) => <button className="archive-entry" type="button" key={memory.title} onClick={() => setActiveIndex(index)}><span>0{index + 1}</span><strong>{memory.title}</strong><b>+</b></button>)}</div>{active && <div className="archive-modal" role="dialog" aria-modal="true" aria-label={active.title}><button className="archive-close" type="button" onClick={() => setActiveIndex(null)} aria-label="Close archive item">×</button><p className="eyebrow">ARCHIVE ENTRY // 0{activeIndex! + 1}</p><h3>{active.title}</h3><p>{active.copy}</p>{active.media && <div className="archive-media">{active.media.map(asset => asset.kind === 'image' ? <img key={asset.src} src={asset.src} alt={asset.label} /> : <video key={asset.src} controls playsInline preload="metadata" aria-label={asset.label}><source src={asset.src} /></video>)}</div>}</div>}</section>
 }
 
 function Home() {
   useSceneTransitions()
   useChapterNavigation()
   useEffect(() => {
-    document.title = 'Hassaan Vani — Hall of Fame'
+    document.title = 'Hassaan Vani | Hall of Fame'
     document.documentElement.style.setProperty('--accent', '#CCFF00')
     document.documentElement.style.setProperty('--accent-soft', '#e1ff6b')
   }, [])
@@ -122,9 +131,9 @@ function App() {
   const portalReady = Boolean(recommendationPortalUrl)
   useSceneTransitions()
   useChapterNavigation()
-  useEffect(() => { document.title = `${teacher.honorific} — Hall of Fame`; document.documentElement.style.setProperty('--accent', teacher.accent); document.documentElement.style.setProperty('--accent-soft', teacher.accentSoft) }, [teacher])
+  useEffect(() => { document.title = `${teacher.honorific} | Hall of Fame`; document.documentElement.style.setProperty('--accent', teacher.accent); document.documentElement.style.setProperty('--accent-soft', teacher.accentSoft) }, [teacher])
 
-  return <main>
+  return <main className={`teacher-page ${teacher.slug}`}>
     <Progress />
     <div className="scanlines" aria-hidden="true" />
     <header className="masthead"><span className="signal" /><span>HASSAAN VANI // PRIVATE EDITION</span><span>SUBJECT 0{validSlugs.indexOf(teacher.slug) + 1}</span></header>
@@ -142,17 +151,17 @@ function App() {
     <div className="highlights" aria-label="Curated highlights">
       {teacher.highlights.map((highlight, index) => <article className={`highlight scene highlight-${index % 2}`} key={highlight.title}>
         <div className="highlight-copy"><p className="eyebrow">{highlight.eyebrow}</p><h3>{highlight.title}</h3><p>{highlight.copy}</p>{highlight.stat && <div className="stat"><strong>{highlight.stat}</strong><span>{highlight.statLabel}</span></div>}</div>
-        <PhotoPanel label={highlight.media} image={highlight.image} index={index} />
+        <PhotoPanel label={highlight.media} image={highlight.image} images={highlight.images} index={index} />
       </article>)}
     </div>
 
     {teacher.quotes.length > 0 && <section className="quote-bank scene" aria-label="Words worth keeping"><p className="eyebrow">FIELD NOTES // WORDS WORTH KEEPING</p><div className="quote-stack">{teacher.quotes.map((quote, index) => <blockquote className="quote-card" key={`${quote.text}-${index}`}><p>{quote.text}</p>{(quote.source || quote.context) && <div className="quote-meta"><span>{quote.source}</span><span>{quote.context}</span></div>}</blockquote>)}</div></section>}
 
-    <section className="archive scene"><p className="eyebrow">THE ARCHIVE // MORE THAT STAYED WITH ME</p><div>{teacher.archive.map((memory, index) => <details key={memory.title}><summary><span>0{index + 1}</span>{memory.title}<b>+</b></summary><p>{memory.copy}</p>{memory.media && <div className="archive-media">{memory.media.map(asset => asset.kind === 'image' ? <img key={asset.src} src={asset.src} alt={asset.label} loading="lazy" /> : <video key={asset.src} controls playsInline preload="metadata" aria-label={asset.label}><source src={asset.src} type="video/quicktime" /></video>)}</div>}</details>)}</div></section>
+    <Archive teacher={teacher} />
 
     <section className="unsaid scene"><p className="eyebrow">THINGS I NEVER GOT TO SAY TO YOU</p><div>{teacher.unsaid.map((thought, index) => <p key={thought}><span>0{index + 1}</span>{thought}</p>)}</div></section>
 
-    <section className="ask scene"><p className="eyebrow">FINAL TRANSMISSION // THE ASK</p><p className="ask-intro">Every achievement here has your fingerprint on it.</p><h2>{teacher.request}</h2>{portalReady ? <a className="portal-button" href={recommendationPortalUrl}>OPEN RECOMMENDATION PORTAL <span>↗</span></a> : <button className="portal-button" disabled title="A recommendation portal URL will be added here">RECOMMENDATION PORTAL — COMING SOON <span>↗</span></button>}<p className="portal-note">Thank you for being part of this chapter.</p></section>
+    <section className="ask scene"><p className="eyebrow">FINAL TRANSMISSION // THE ASK</p><p className="ask-intro">Every achievement here has your fingerprint on it.</p><h2>{teacher.request}</h2>{portalReady ? <a className="portal-button" href={recommendationPortalUrl}>OPEN RECOMMENDATION PORTAL <span>↗</span></a> : <button className="portal-button" disabled title="A recommendation portal URL will be added here">RECOMMENDATION PORTAL | COMING SOON <span>↗</span></button>}<p className="portal-note">Thank you for being part of this chapter.</p></section>
     <footer><span>END OF TRANSMISSION</span><span>{teacher.honorific.toUpperCase()} // {teacher.archetype}</span></footer>
 
   </main>
