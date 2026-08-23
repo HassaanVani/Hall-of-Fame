@@ -5,7 +5,7 @@ export type Quote = { text: string; source?: string; context?: string }
 export type Teacher = {
   slug: 'renaldi' | 'tymeson' | 'hanley'
   name: string; honorific: string; role: string; archetype: string; accent: string; accentSoft: string
-  opener: string; thesis: string; highlights: Highlight[]; archive: Memory[]; quotes: Quote[]; unsaid: string[]; request: string
+  opener: string; thesis: string; highlights: Highlight[]; archive: Memory[]; misc: ArchiveAsset[]; quotes: Quote[]; unsaid: string[]; request: string
 }
 
 export const recommendationPortalUrl = ''
@@ -16,17 +16,18 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
     opener: 'A story of finding a voice, rebuilding it, and taking it all the way to Nationals.',
     thesis: 'You gave debate its stakes, and made every hard round, hard loss, and hard-earned win feel like a reason to come back sharper.',
     highlights: [
-      { eyebrow: 'ORIGIN STORY // 01', title: 'History with a point of view.', copy: 'The Philippines colonization project was our first big APUSH project together. It was an introduction to the level of excellence you expected: research with ambition, a real point of view, and work worth standing behind.', media: 'Debate promotion', image: '/photos/debate-advertising.jpg' },
+      { eyebrow: 'ORIGIN STORY // 01', title: 'History with a point of view.', copy: 'The Philippines colonization project was our first big APUSH project together. It was an introduction to the level of excellence you expected: research with ambition, a real point of view, and work worth standing behind.', media: 'Philippines colonization project', image: '/photos/philippines-presentation.png' },
       { eyebrow: 'FIRST BREAKTHROUGH // 02', title: 'The first first place.', copy: 'My first-ever Public Forum competition ended with a first-place finish, the beginning of discovering that preparation could become confidence.', stat: '1ST', statLabel: 'FIRST PF COMPETITION', media: 'SPADE team', image: '/photos/spade-group.jpg' },
-      { eyebrow: 'NATIONAL STAGE // 03', title: 'Chicago, then D.C.', copy: 'From winning a national qualifier and going to Chicago for PF Nationals to qualifying again at the last minute for Washington, D.C., you made the biggest stages feel reachable.', media: 'Nationals, both years', image: '/photos/nationals-both-years.jpg' },
+      { eyebrow: 'NATIONAL STAGE // 03', title: 'Chicago, then D.C.', copy: 'From winning a national qualifier and going to Chicago for PF Nationals to qualifying again at the last minute for Washington, D.C., you made the biggest stages feel reachable.', media: ['Chicago // PF Nationals', 'Washington, D.C. // PF Nationals'], images: ['/photos/nationals-spade-2025.jpg', '/photos/nationals-dc.jpg'] },
       { eyebrow: 'THE RESET // 04', title: 'The comeback mattered.', copy: 'When the next season began in a slump, you re-motivated us to get back up. We won our self-hosted competition, then found our way back to Nationals.', media: 'Nationals bound, 2026', image: '/photos/nationals-bound-2026.jpg' },
-      { eyebrow: 'THE MEMORY // 05', title: 'Standard Oil, but make it comedy.', copy: 'The APUSH final parody of Standard Oil v. U.S. was exactly what made your classroom unforgettable: serious ideas, full commitment, and permission to be funny.', media: 'Nationals in Washington, D.C.', image: '/photos/nationals-dc.jpg' }
+      { eyebrow: 'THE MEMORY // 05', title: 'Standard Oil, but make it comedy.', copy: 'The APUSH final parody of Standard Oil v. U.S. was exactly what made your classroom unforgettable: serious ideas, full commitment, and permission to be funny.', media: 'Standard Oil v. U.S. comedy final', image: '/photos/standard-oil.png' }
     ],
     archive: [
       { title: 'National qualifier', copy: 'A first-place finish that turned “maybe someday” into a national bid.', media: [{ kind: 'image', src: '/photos/nationals-spade-2025.jpg', label: 'SPADE at Nationals, 2025' }] },
       { title: 'Chicago', copy: 'Traveling together for PF Nationals and getting to see how far the work could take us.', media: [{ kind: 'image', src: '/photos/nationals-both-years.jpg', label: 'Chicago and Nationals wristbands' }] },
       { title: 'Washington, D.C.', copy: 'Nationals, the Aerospace Museum, and the Smithsonian: a final chapter with a lot of momentum behind it.', media: [{ kind: 'image', src: '/photos/nationals-dc.jpg', label: 'Nationals in Washington, D.C.' }, { kind: 'image', src: '/photos/nationals-dc-dinner.jpg', label: 'D.C. Nationals dinner' }] }
     ],
+    misc: [{ kind: 'image', src: '/photos/debate-advertising.jpg', label: 'Debate promotion' }, { kind: 'image', src: '/photos/spade-new-year-2026.jpg', label: 'New Year SPADE' }, { kind: 'image', src: '/photos/nationals-bound-2026.jpg', label: 'Nationals bound, 2026' }, { kind: 'image', src: '/photos/nationals-dc-dinner.jpg', label: 'D.C. Nationals dinner' }],
     // Add a quote card here whenever you have an exact Renaldi quote to preserve.
     quotes: [],
     unsaid: [
@@ -40,9 +41,9 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
     opener: 'A multi-year experiment in curiosity, momentum, and seeing how far an extra layer of analysis can go.',
     thesis: 'Your classroom made physics (and everything else) feel less like an answer key and more like an invitation to test every interesting idea all the way through.',
     highlights: [
-      { eyebrow: 'THE LONG ARC // 01', title: 'A very fast transformation.', copy: 'Freshman-year Science Bowl started with me as a really bad physics main. Two years later, I was taking your physics class twice at once because I wanted more time in the room. The before-and-after was accelerated, but it was real.', media: ['Science Bowl, freshman year', 'Physics class, junior year'], images: ['/photos/science-bowl-mit.jpg', '/photos/tymeson-group.jpg'] },
+      { eyebrow: 'THE LONG ARC // 01', title: 'A very fast transformation.', copy: 'Freshman-year Science Bowl started with me as a really bad physics main. Two years later, I was taking your physics class twice at once because I wanted more time in the room. The before-and-after was accelerated, but it was real.', media: ['Freshman year // getting started', 'Junior year // physics twice over'], images: ['/photos/tymeson-freshman.jpg', '/photos/tymeson-group.jpg'] },
       { eyebrow: 'MONTE CARLO // 02', title: 'Monte Carlo was the answer.', copy: 'I got obsessed with the idea that a simulation could settle a question when intuition could not. The Die Hard argument became one million trials, angular momentum, falling dynamics, and a 48.88% window-break result. Later, that same Monte Carlo instinct helped me clutch a Science Bowl regionals question.', stat: '48.88%', statLabel: 'WINDOW-BREAK SIMULATIONS', media: 'Science Bowl at MIT', image: '/photos/science-bowl-mit.jpg' },
-      { eyebrow: 'STUDY SYSTEM // 03', title: 'Too much time, in a good way.', copy: 'I formulated the system in class, built the material, and made practice tests with Monte Carlo so we could talk about Swamp questions. Then I remade it for Regents cluster questions and used it to predict final-exam questions. It became less of a study guide and more of a whole test-making platform.', media: ['Whiteboard plan', 'Midterm Monte Carlo', 'Regents cluster questions', 'Finals prediction'] },
+      { eyebrow: 'STUDY SYSTEM // 03', title: 'Too much time, in a good way.', copy: 'I formulated the system in class, built the material, and made practice tests with Monte Carlo so we could talk about Swamp questions. Then I remade it for Regents cluster questions and used it to predict final-exam questions. It became less of a study guide and more of a whole test-making platform.', media: ['Whiteboard plan', 'Monte Carlo analysis', '38/38 result', 'Four AP Physics 5s'], images: ['/photos/jeff-whiteboard.jpg', '/photos/die-hard-analysis.png', '/photos/physics-38-38.jpg', '/photos/four-fives.png'] },
       { eyebrow: 'ELECTROMAGNETISM // 04', title: 'Thirty-eight out of thirty-eight.', copy: 'I was the only student across three classes to earn a 38/38 on the electromagnetism test. You even had to curve the test down.', stat: '38/38', statLabel: 'ELECTROMAGNETISM', media: 'Science Bowl regional second place', image: '/photos/science-bowl-second.jpg' },
       { eyebrow: 'MR. PHYSICS // 05', title: 'Four AP Physics 5s.', copy: 'After self-studying all four AP Physics exams in your orbit, I sent the screenshot and called myself “Mr. Physics.” I never told you, but I actually got a 5 in every one of the 10 APs I took.', stat: '4 × 5', statLabel: 'AP PHYSICS SCORES', media: 'Physics class', image: '/photos/tymeson-group.jpg' }
     ],
@@ -53,6 +54,7 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
       { title: 'Final-exam precision', copy: 'The generator forecast two trick questions; the final ended at 119/120, one point short only because an electric-field direction was omitted.' },
       { title: 'Beyond class', copy: 'Your confidence in my coding even led to a job through your pickleball buddies.' }
     ],
+    misc: [{ kind: 'image', src: '/photos/tymeson-six-flags.jpg', label: 'Six Flags with Mr. Tymeson' }, { kind: 'image', src: '/photos/science-bowl-mit.jpg', label: 'Science Bowl at MIT' }, { kind: 'image', src: '/photos/physics-38-38.jpg', label: '38 out of 38' }, { kind: 'video', src: '/videos/blowing-up-capacitor.mov', label: 'Capacitor explosion' }],
     quotes: [
       { text: '“Good work Hassaan!”', source: 'MR. TYMESON', context: 'After the Die Hard Monte Carlo simulation' },
       { text: '“You have too much time on your hands (in a good way).”', source: 'MR. TYMESON', context: 'On the midterm test-generator analysis' },
@@ -81,6 +83,7 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
       { title: 'Advent of Code', copy: 'From second place in year one to first place at school in year two.', media: [{ kind: 'image', src: '/photos/hanley-selfie-2026.jpg', label: 'Programming teammates, 2026' }] },
       { title: 'A better second run', copy: 'The second Siena Gold competition ended in third place, a trophy, and proof that the first-year loss had taught us something.', media: [{ kind: 'image', src: '/photos/hanley-siena-2026.jpg', label: 'Siena Programming Competition, 2026' }, { kind: 'image', src: '/photos/siena-trophy-2026.jpg', label: 'Siena Gold trophy' }] }
     ],
+    misc: [{ kind: 'image', src: '/photos/crossword-test.png', label: 'The first crossword test' }, { kind: 'image', src: '/photos/hanleys-hood-2.png', label: 'Hanley’s Hood overhaul' }, { kind: 'image', src: '/photos/hanley-selfie-2026.jpg', label: 'Programming teammates, 2026' }, { kind: 'image', src: '/photos/hanley-shenanigans.jpg', label: 'Hanley shenanigans' }],
     quotes: [
       { text: '“No can doey Hong Kong Fuey.”', source: 'MR. HANLEY' },
       { text: '“Get back to work you jamokes I don’t pay you to sit around all day.”', source: 'MR. HANLEY' },
