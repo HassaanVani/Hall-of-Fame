@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { recommendationPortalUrl, teachers, type ArchiveAsset, type Teacher } from './data'
 
 const validSlugs = Object.keys(teachers) as Teacher['slug'][]
@@ -106,10 +106,94 @@ function MiscCollage({ items, onOpen }: { items: ArchiveAsset[]; onOpen: (image:
 
 function ImageLightbox({ image, onClose }: { image: LightboxImage | null; onClose: () => void }) {
   const [zoomed, setZoomed] = useState(false)
-  useEffect(() => { setZoomed(false) }, [image])
-  useEffect(() => { const close = (event: KeyboardEvent) => event.key === 'Escape' && onClose(); window.addEventListener('keydown', close); return () => window.removeEventListener('keydown', close) }, [onClose])
+  const [lensEnabled, setLensEnabled] = useState(true)
+  const [lensPos, setLensPos] = useState({ x: 0, y: 0, show: false, imgW: 0, imgH: 0 })
+  const imgRef = useRef<HTMLImageElement>(null)
+
+  useEffect(() => { setZoomed(false); setLensPos(p => ({ ...p, show: false })) }, [image])
+  useEffect(() => {
+    const close = (event: KeyboardEvent) => event.key === 'Escape' && onClose()
+    window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)
+  }, [onClose])
+
   if (!image) return null
-  return <div className="lightbox" role="dialog" aria-modal="true" aria-label={image.label}><button className="lightbox-backdrop" type="button" onClick={onClose} aria-label="Close image viewer" /><div className="lightbox-shell"><div className="lightbox-bar"><span>{image.label}</span><div><button type="button" onClick={() => setZoomed(value => !value)}>{zoomed ? 'ZOOM OUT' : 'ZOOM IN'}</button><button type="button" onClick={onClose}>CLOSE ×</button></div></div><button className={`lightbox-image${zoomed ? ' is-zoomed' : ''}`} type="button" onClick={() => setZoomed(value => !value)} aria-label={zoomed ? 'Zoom out' : 'Zoom in'}><img src={image.src} alt={image.label} /></button><p>CLICK IMAGE TO {zoomed ? 'ZOOM OUT' : 'MAGNIFY'}</p></div></div>
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!imgRef.current || zoomed) return
+    const rect = imgRef.current.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+      setLensPos({ x, y, show: true, imgW: rect.width, imgH: rect.height })
+    } else {
+      setLensPos(p => ({ ...p, show: false }))
+    }
+  }
+
+  const handleMouseLeave = () => {
+    setLensPos(p => ({ ...p, show: false }))
+  }
+
+  const zoomFactor = 2.4
+  const lensRadius = 95 // 190px diameter
+
+  return (
+    <div className="lightbox" role="dialog" aria-modal="true" aria-label={image.label}>
+      <button className="lightbox-backdrop" type="button" onClick={onClose} aria-label="Close image viewer" />
+      <div className="lightbox-shell">
+        <div className="lightbox-bar">
+          <span>{image.label}</span>
+          <div>
+            <button type="button" onClick={() => setLensEnabled(v => !v)}>
+              {lensEnabled ? 'LENS: ACTIVE' : 'LENS: OFF'}
+            </button>
+            <button type="button" onClick={() => setZoomed(v => !v)}>
+              {zoomed ? 'RESET VIEW' : 'FULL ZOOM'}
+            </button>
+            <button type="button" onClick={onClose}>CLOSE ×</button>
+          </div>
+        </div>
+
+        <div 
+          className={`lightbox-image${zoomed ? ' is-zoomed' : ''}`} 
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          onClick={() => setZoomed(v => !v)}
+          style={{ position: 'relative' }}
+        >
+          <img ref={imgRef} src={image.src} alt={image.label} />
+
+          {/* Interactive Magnifying Glass Loupe */}
+          {!zoomed && lensEnabled && lensPos.show && (
+            <div 
+              className="magnifier-lens"
+              style={{
+                position: 'absolute',
+                left: `${lensPos.x - lensRadius}px`,
+                top: `${lensPos.y - lensRadius}px`,
+                width: `${lensRadius * 2}px`,
+                height: `${lensRadius * 2}px`,
+                borderRadius: '50%',
+                border: '2px solid var(--accent)',
+                boxShadow: '0 0 25px var(--accent), inset 0 0 20px rgba(0,0,0,0.6), 0 12px 36px rgba(0,0,0,0.95)',
+                backgroundImage: `url("${image.src}")`,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: `${lensPos.imgW * zoomFactor}px ${lensPos.imgH * zoomFactor}px`,
+                backgroundPosition: `${-lensPos.x * zoomFactor + lensRadius}px ${-lensPos.y * zoomFactor + lensRadius}px`,
+                pointerEvents: 'none',
+                zIndex: 10,
+              }}
+            >
+              <div className="lens-crosshair" />
+            </div>
+          )}
+        </div>
+
+        <p>HOVER MOUSE TO MAGNIFY DETAILS // CLICK IMAGE FOR FULL SCALE ZOOM</p>
+      </div>
+    </div>
+  )
 }
 
 function Home() {

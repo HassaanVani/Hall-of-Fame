@@ -154,3 +154,54 @@ main .hero.scene { height:100dvh; min-height:100dvh; max-height:100dvh; }
 /* Real photos should read as real photos, not as nearly-black decorative texture. */
 .photo-slot.has-image:after { background:linear-gradient(180deg,rgba(5,5,5,.02) 36%,rgba(5,5,5,.5)); }
 .photo-slot.has-image > .image-open img,.photo-tile .image-open img { opacity:1; filter:none; }
+
+/* Interactive Photo Pop-Out Hover Effects */
+.photo-tile,
+.photo-slot:not(.photo-gallery),
+.archive-image-open,
+.misc-item {
+  transition: transform 0.35s cubic-bezier(0.2, 0.85, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease !important;
+  will-change: transform;
+}
+
+.photo-tile:hover,
+.photo-slot:not(.photo-gallery):hover,
+.archive-image-open:hover,
+.misc-item:hover {
+  transform: scale(1.038) translateY(-4px) !important;
+  z-index: 10 !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9), 0 0 25px color-mix(in srgb, var(--accent) 45%, transparent) !important;
+}
+
+/* Magnifier Lens styling */
+.magnifier-lens {
+  backdrop-filter: blur(1px);
+}
+.lens-crosshair {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.lens-crosshair::before,
+.lens-crosshair::after {
+  content: '';
+  position: absolute;
+  background: var(--accent);
+  opacity: 0.6;
+}
+.lens-crosshair::before {
+  top: 50%;
+  left: 30%;
+  right: 30%;
+  height: 1px;
+  transform: translateY(-0.5px);
+}
+.lens-crosshair::after {
+  left: 50%;
+  top: 30%;
+  bottom: 30%;
+  width: 1px;
+  transform: translateX(-0.5px);
+}
+
