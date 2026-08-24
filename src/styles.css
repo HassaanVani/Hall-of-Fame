@@ -152,6 +152,14 @@ main .hero.scene { height:100dvh; min-height:100dvh; max-height:100dvh; }
 @media (max-width:720px) { .photo-grid.count-2 { padding:3px; gap:3px; }.photo-grid.count-2 .photo-tile small { font-size:7px; }.archive-image-open { min-width:0; width:100%; max-width:100%; height:clamp(145px,31svh,225px); }.misc-collage { padding:8vh 7vw; justify-content:space-between; }.misc-collage > div { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }.misc-item { aspect-ratio:1/.86; }.lightbox { padding:12px; }.lightbox-shell { height:min(90dvh,780px); }.lightbox-bar { padding:9px 10px; min-height:54px; }.lightbox-bar > div { gap:5px; }.lightbox-bar button { padding:8px 7px; font-size:8px; }.lightbox-shell > p { font-size:8px; } }
 
 /* Real photos should read as real photos, not as nearly-black decorative texture. */
+/* Prevent scene overflow clipping for photo popouts on teacher pages */
+.teacher-page .scene {
+  overflow: visible !important;
+}
+.teacher-page .highlight {
+  overflow: visible !important;
+}
+
 /* Decorative overlays should NEVER intercept mouse clicks */
 .photo-slot:before,
 .photo-slot:after,
@@ -169,6 +177,7 @@ main .hero.scene { height:100dvh; min-height:100dvh; max-height:100dvh; }
 /* Photo slot & grid overflow fixes for clean pop-out without edge clipping */
 .photo-slot {
   overflow: visible !important;
+  isolation: isolate;
 }
 
 .photo-gallery {
@@ -220,6 +229,10 @@ main .hero.scene { height:100dvh; min-height:100dvh; max-height:100dvh; }
   transition: transform 0.28s cubic-bezier(0.2, 0.85, 0.2, 1), box-shadow 0.28s ease, border-color 0.28s ease !important;
 }
 
+.photo-tile img {
+  border-radius: 2px;
+}
+
 .photo-tile .image-open {
   position: absolute;
   inset: 0;
@@ -235,30 +248,29 @@ main .hero.scene { height:100dvh; min-height:100dvh; max-height:100dvh; }
 
 /* Pop-out on Hover - Mini Grids, Photo Slots, Archive, Misc */
 .photo-tile:hover {
-  transform: scale(1.08) translateY(-4px) !important;
+  transform: scale(1.05) translateY(-3px) !important;
   z-index: 50 !important;
   border-color: var(--accent) !important;
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.95), 0 0 22px color-mix(in srgb, var(--accent) 60%, transparent) !important;
-  outline: 1px solid var(--accent);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.95), 0 0 0 1.5px var(--accent), 0 0 20px color-mix(in srgb, var(--accent) 55%, transparent) !important;
 }
 
 .photo-slot:not(.photo-gallery):hover {
-  transform: scale(1.03) translateY(-4px) !important;
+  transform: scale(1.025) translateY(-3px) !important;
   z-index: 30 !important;
   border-color: var(--accent) !important;
-  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.95), 0 0 30px color-mix(in srgb, var(--accent) 45%, transparent) !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.95), 0 0 0 1.5px var(--accent), 0 0 25px color-mix(in srgb, var(--accent) 45%, transparent) !important;
 }
 
 .archive-image-open:hover {
-  transform: scale(1.06) translateY(-3px) !important;
+  transform: scale(1.05) translateY(-3px) !important;
   z-index: 30 !important;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9), 0 0 22px color-mix(in srgb, var(--accent) 50%, transparent) !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.9), 0 0 0 1.5px var(--accent), 0 0 20px color-mix(in srgb, var(--accent) 50%, transparent) !important;
 }
 
 .misc-item:hover {
-  transform: scale(1.05) translateY(-3px) !important;
+  transform: scale(1.04) translateY(-3px) !important;
   z-index: 30 !important;
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.9), 0 0 22px color-mix(in srgb, var(--accent) 50%, transparent) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9), 0 0 0 1.5px var(--accent), 0 0 20px color-mix(in srgb, var(--accent) 50%, transparent) !important;
 }
 
 /* Magnifier Lens styling */
@@ -291,5 +303,6 @@ main .hero.scene { height:100dvh; min-height:100dvh; max-height:100dvh; }
   width: 1px;
   transform: translateX(-0.5px);
 }
+
 
 

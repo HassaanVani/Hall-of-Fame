@@ -132,10 +132,20 @@ function MiscCollage({ items, onOpen }: { items: ArchiveAsset[]; onOpen: (image:
 function ImageLightbox({ image, onClose }: { image: LightboxImage | null; onClose: () => void }) {
   const [zoomed, setZoomed] = useState(false)
   const [lensEnabled, setLensEnabled] = useState(true)
-  const [lensPos, setLensPos] = useState({ x: 0, y: 0, show: false, imgW: 0, imgH: 0 })
-  const imgRef = useRef<HTMLImageElement>(null)
+  const [lensState, setLensState] = useState<{
+    show: boolean
+    cursorX: number
+    cursorY: number
+    relX: number
+    relY: number
+    renderW: number
+    renderH: number
+  }>({ show: false, cursorX: 0, cursorY: 0, relX: 0, relY: 0, renderW: 0, renderH: 0 })
 
-  useEffect(() => { setZoomed(false); setLensPos(p => ({ ...p, show: false })) }, [image])
+  const imgRef = useRef<HTMLImageElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => { setZoomed(false); setLensState(s => ({ ...s, show: false })) }, [image])
   useEffect(() => {
     const close = (event: KeyboardEvent) => event.key === 'Escape' && onClose()
     window.addEventListener('keydown', close)
@@ -145,23 +155,64 @@ function ImageLightbox({ image, onClose }: { image: LightboxImage | null; onClos
   if (!image) return null
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!imgRef.current || zoomed) return
-    const rect = imgRef.current.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
-      setLensPos({ x, y, show: true, imgW: rect.width, imgH: rect.height })
+    if (!imgRef.current || !containerRef.current || zoomed) return
+
+    const containerRect = containerRef.current.getBoundingClientRect()
+    const natW = imgRef.current.naturalWidth || containerRect.width
+    const natH = imgRef.current.naturalHeight || containerRect.height
+
+    if (!natW || !natH) return
+
+    const cW = containerRect.width
+    const cH = containerRect.height
+
+    const imageAspect = natW / natH
+    const containerAspect = cW / cH
+
+    let renderW = 0
+    let renderH = 0
+    let offsetX = 0
+    let offsetY = 0
+
+    if (imageAspect > containerAspect) {
+      renderW = cW
+      renderH = cW / imageAspect
+      offsetX = 0
+      offsetY = (cH - renderH) / 2
     } else {
-      setLensPos(p => ({ ...p, show: false }))
+      renderH = cH
+      renderW = cH * imageAspect
+      offsetX = (cW - renderW) / 2
+      offsetY = 0
+    }
+
+    const cX = e.clientX - containerRect.left
+    const cY = e.clientY - containerRect.top
+
+    const relX = cX - offsetX
+    const relY = cY - offsetY
+
+    if (relX >= 0 && relX <= renderW && relY >= 0 && relY <= renderH) {
+      setLensState({
+        show: true,
+        cursorX: cX,
+        cursorY: cY,
+        relX,
+        relY,
+        renderW,
+        renderH,
+      })
+    } else {
+      setLensState(s => ({ ...s, show: false }))
     }
   }
 
   const handleMouseLeave = () => {
-    setLensPos(p => ({ ...p, show: false }))
+    setLensState(s => ({ ...s, show: false }))
   }
 
-  const zoomFactor = 2.4
-  const lensRadius = 95 // 190px diameter
+  const zoomFactor = 2.5
+  const lensRadius = 90 // 180px diameter lens
 
   return (
     <div className="lightbox" role="dialog" aria-modal="true" aria-label={image.label}>
@@ -171,7 +222,7 @@ function ImageLightbox({ image, onClose }: { image: LightboxImage | null; onClos
           <span>{image.label}</span>
           <div>
             <button type="button" onClick={() => setLensEnabled(v => !v)}>
-              {lensEnabled ? 'LENS: ACTIVE' : 'LENS: OFF'}
+              {lensEnabled ? 'MAGNIFIER: ACTIVE' : 'MAGNIFIER: OFF'}
             </button>
             <button type="button" onClick={() => setZoomed(v => !v)}>
               {zoomed ? 'RESET VIEW' : 'FULL ZOOM'}
@@ -181,6 +232,7 @@ function ImageLightbox({ image, onClose }: { image: LightboxImage | null; onClos
         </div>
 
         <div 
+          ref={containerRef}
           className={`lightbox-image${zoomed ? ' is-zoomed' : ''}`} 
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
@@ -189,25 +241,25 @@ function ImageLightbox({ image, onClose }: { image: LightboxImage | null; onClos
         >
           <img ref={imgRef} src={image.src} alt={image.label} />
 
-          {/* Interactive Magnifying Glass Loupe */}
-          {!zoomed && lensEnabled && lensPos.show && (
+          {/* Calibrated Magnifying Glass Loupe */}
+          {!zoomed && lensEnabled && lensState.show && (
             <div 
               className="magnifier-lens"
               style={{
                 position: 'absolute',
-                left: `${lensPos.x - lensRadius}px`,
-                top: `${lensPos.y - lensRadius}px`,
+                left: `${lensState.cursorX - lensRadius}px`,
+                top: `${lensState.cursorY - lensRadius}px`,
                 width: `${lensRadius * 2}px`,
                 height: `${lensRadius * 2}px`,
                 borderRadius: '50%',
                 border: '2px solid var(--accent)',
-                boxShadow: '0 0 25px var(--accent), inset 0 0 20px rgba(0,0,0,0.6), 0 12px 36px rgba(0,0,0,0.95)',
+                boxShadow: '0 0 30px var(--accent), inset 0 0 20px rgba(0,0,0,0.6), 0 12px 36px rgba(0,0,0,0.95)',
                 backgroundImage: `url("${image.src}")`,
                 backgroundRepeat: 'no-repeat',
-                backgroundSize: `${lensPos.imgW * zoomFactor}px ${lensPos.imgH * zoomFactor}px`,
-                backgroundPosition: `${-lensPos.x * zoomFactor + lensRadius}px ${-lensPos.y * zoomFactor + lensRadius}px`,
+                backgroundSize: `${lensState.renderW * zoomFactor}px ${lensState.renderH * zoomFactor}px`,
+                backgroundPosition: `${-lensState.relX * zoomFactor + lensRadius}px ${-lensState.relY * zoomFactor + lensRadius}px`,
                 pointerEvents: 'none',
-                zIndex: 10,
+                zIndex: 20,
               }}
             >
               <div className="lens-crosshair" />
@@ -215,7 +267,7 @@ function ImageLightbox({ image, onClose }: { image: LightboxImage | null; onClos
           )}
         </div>
 
-        <p>HOVER MOUSE TO MAGNIFY DETAILS // CLICK IMAGE FOR FULL SCALE ZOOM</p>
+        <p>HOVER OVER PHOTO TO MAGNIFY DETAILS // CLICK FOR FULL-SCALE ZOOM</p>
       </div>
     </div>
   )
