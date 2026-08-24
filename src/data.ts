@@ -8,7 +8,7 @@ export type Teacher = {
   opener: string; thesis: string; highlights: Highlight[]; archive: Memory[]; misc: ArchiveAsset[]; quotes: Quote[]; unsaid: string[]; request: string
 }
 
-export const recommendationPortalUrl = ''
+export const recommendationPortalUrl = 'https://docs.new'
 
 export const teachers: Record<Teacher['slug'], Teacher> = {
   renaldi: {
