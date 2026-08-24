@@ -83,7 +83,7 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
       { title: 'Advent of Code', copy: 'From second place in year one to first place at school in year two.', media: [{ kind: 'image', src: '/photos/hanley-selfie-2026.jpg', label: 'Programming teammates, 2026' }] },
       { title: 'A better second run', copy: 'The second Siena Gold competition ended in third place, a trophy, and proof that the first-year loss had taught us something.', media: [{ kind: 'image', src: '/photos/hanley-siena-2026.jpg', label: 'Siena Programming Competition, 2026' }, { kind: 'image', src: '/photos/siena-trophy-2026.jpg', label: 'Siena Gold trophy' }] }
     ],
-    misc: [{ kind: 'image', src: '/photos/hanleys-hood.png', label: 'Hanley’s Hood, original view' }, { kind: 'image', src: '/photos/hanley-selfie-2026.jpg', label: 'Programming teammates, 2026' }, { kind: 'image', src: '/photos/hanley-shenanigans.jpg', label: 'Hanley shenanigans' }, { kind: 'image', src: '/photos/hanley-siena-2026.jpg', label: 'Siena Gold, 2026' }],
+    misc: [{ kind: 'image', src: '/photos/hanleys-hood.png', label: 'Hanley’s Hood, original view' }, { kind: 'image', src: '/photos/hanley-selfie-2026.jpg', label: 'Programming teammates, 2026' }, { kind: 'image', src: '/photos/hanley-shenanigans.jpg', label: 'Room shenanigans' }, { kind: 'image', src: '/photos/hanley-siena-2026.jpg', label: 'Siena Gold, 2026' }],
     quotes: [
       { text: '“No can doey Hong Kong Fuey.”', source: 'MR. HANLEY' },
       { text: '“Get back to work you jamokes I don’t pay you to sit around all day.”', source: 'MR. HANLEY' },
