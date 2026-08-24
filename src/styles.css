@@ -152,26 +152,113 @@ main .hero.scene { height:100dvh; min-height:100dvh; max-height:100dvh; }
 @media (max-width:720px) { .photo-grid.count-2 { padding:3px; gap:3px; }.photo-grid.count-2 .photo-tile small { font-size:7px; }.archive-image-open { min-width:0; width:100%; max-width:100%; height:clamp(145px,31svh,225px); }.misc-collage { padding:8vh 7vw; justify-content:space-between; }.misc-collage > div { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }.misc-item { aspect-ratio:1/.86; }.lightbox { padding:12px; }.lightbox-shell { height:min(90dvh,780px); }.lightbox-bar { padding:9px 10px; min-height:54px; }.lightbox-bar > div { gap:5px; }.lightbox-bar button { padding:8px 7px; font-size:8px; }.lightbox-shell > p { font-size:8px; } }
 
 /* Real photos should read as real photos, not as nearly-black decorative texture. */
-.photo-slot.has-image:after { background:linear-gradient(180deg,rgba(5,5,5,.02) 36%,rgba(5,5,5,.5)); }
-.photo-slot.has-image > .image-open img,.photo-tile .image-open img { opacity:1; filter:none; }
-
-/* Interactive Photo Pop-Out Hover Effects */
-.photo-tile,
-.photo-slot:not(.photo-gallery),
-.archive-image-open,
-.misc-item {
-  transition: transform 0.35s cubic-bezier(0.2, 0.85, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease !important;
-  will-change: transform;
+/* Decorative overlays should NEVER intercept mouse clicks */
+.photo-slot:before,
+.photo-slot:after,
+.photo-slot.has-image:after,
+.photo-tile:before {
+  pointer-events: none !important;
 }
 
-.photo-tile:hover,
-.photo-slot:not(.photo-gallery):hover,
-.archive-image-open:hover,
-.misc-item:hover {
-  transform: scale(1.038) translateY(-4px) !important;
-  z-index: 10 !important;
+.photo-slot > span,
+.photo-slot > small,
+.photo-slot .photo-index {
+  pointer-events: none !important;
+}
+
+/* Photo slot & grid overflow fixes for clean pop-out without edge clipping */
+.photo-slot {
+  overflow: visible !important;
+}
+
+.photo-gallery {
+  overflow: visible !important;
+}
+
+.photo-grid {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 6px;
+  background: #050505;
+  border-radius: 4px;
+  overflow: visible !important;
+}
+
+/* Image Open buttons & tiles must be at highest z-index & handle pointer events */
+.image-open,
+.archive-image-open {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer !important;
+  z-index: 5 !important;
+}
+
+.photo-slot > .image-open {
+  position: absolute;
+  z-index: 5 !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer !important;
+}
+
+.photo-tile {
+  position: relative;
+  min-width: 0;
+  overflow: visible !important;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  background: #0a0a0a;
+  cursor: pointer !important;
+  z-index: 5 !important;
+  transition: transform 0.28s cubic-bezier(0.2, 0.85, 0.2, 1), box-shadow 0.28s ease, border-color 0.28s ease !important;
+}
+
+.photo-tile .image-open {
+  position: absolute;
+  inset: 0;
+  z-index: 6 !important;
+  width: 100%;
+  height: 100%;
+  cursor: pointer !important;
+}
+
+.photo-tile small {
+  pointer-events: none !important;
+}
+
+/* Pop-out on Hover - Mini Grids, Photo Slots, Archive, Misc */
+.photo-tile:hover {
+  transform: scale(1.08) translateY(-4px) !important;
+  z-index: 50 !important;
   border-color: var(--accent) !important;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9), 0 0 25px color-mix(in srgb, var(--accent) 45%, transparent) !important;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.95), 0 0 22px color-mix(in srgb, var(--accent) 60%, transparent) !important;
+  outline: 1px solid var(--accent);
+}
+
+.photo-slot:not(.photo-gallery):hover {
+  transform: scale(1.03) translateY(-4px) !important;
+  z-index: 30 !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.95), 0 0 30px color-mix(in srgb, var(--accent) 45%, transparent) !important;
+}
+
+.archive-image-open:hover {
+  transform: scale(1.06) translateY(-3px) !important;
+  z-index: 30 !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9), 0 0 22px color-mix(in srgb, var(--accent) 50%, transparent) !important;
+}
+
+.misc-item:hover {
+  transform: scale(1.05) translateY(-3px) !important;
+  z-index: 30 !important;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.9), 0 0 22px color-mix(in srgb, var(--accent) 50%, transparent) !important;
 }
 
 /* Magnifier Lens styling */
@@ -204,4 +291,5 @@ main .hero.scene { height:100dvh; min-height:100dvh; max-height:100dvh; }
   width: 1px;
   transform: translateX(-0.5px);
 }
+
 

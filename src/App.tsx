@@ -89,8 +89,33 @@ function PhotoPanel({ label, image, images, index, onOpen }: { label: string | s
   const sources = images ?? (image ? [image] : [])
   const gallery = labels.length > 1 || sources.length > 1
   return <div className={`photo-slot${sources.length ? ' has-image' : ''}${gallery ? ' photo-gallery' : ''}`} aria-label={sources.length ? `Photo: ${labels.join(', ')}` : `Photo placeholders: ${labels.join(', ')}`}>
-    {gallery ? <div className={`photo-grid count-${labels.length}`}>{labels.map((item, itemIndex) => <div className="photo-tile" key={item}>{sources[itemIndex] && <button className="image-open" type="button" onClick={() => onOpen({ src: sources[itemIndex], label: item })} aria-label={`Open ${item} full screen`}><img src={sources[itemIndex]} alt={item} loading="eager" /></button>}<small>{item}</small></div>)}</div> : image && <button className="image-open" type="button" onClick={() => onOpen({ src: image, label: labels[0] })} aria-label={`Open ${labels[0]} full screen`}><img src={image} alt={labels[0]} loading="eager" /></button>}
-    <span className="photo-index">0{index + 1}</span><span>{gallery ? 'PHOTO SEQUENCE' : 'PHOTO MOMENT'}</span><small>{gallery ? `${labels.length} RELATED MOMENTS` : label}</small>
+    {gallery ? (
+      <div className={`photo-grid count-${labels.length}`}>
+        {labels.map((item, itemIndex) => (
+          <div 
+            className="photo-tile" 
+            key={item}
+            onClick={() => sources[itemIndex] && onOpen({ src: sources[itemIndex], label: item })}
+          >
+            {sources[itemIndex] && (
+              <button className="image-open" type="button" onClick={(e) => { e.stopPropagation(); onOpen({ src: sources[itemIndex], label: item }) }} aria-label={`Open ${item} full screen`}>
+                <img src={sources[itemIndex]} alt={item} loading="eager" />
+              </button>
+            )}
+            <small>{item}</small>
+          </div>
+        ))}
+      </div>
+    ) : (
+      sources[0] && (
+        <button className="image-open" type="button" onClick={() => onOpen({ src: sources[0], label: labels[0] })} aria-label={`Open ${labels[0]} full screen`}>
+          <img src={sources[0]} alt={labels[0]} loading="eager" />
+        </button>
+      )
+    )}
+    <span className="photo-index">0{index + 1}</span>
+    <span>{gallery ? 'PHOTO SEQUENCE' : 'PHOTO MOMENT'}</span>
+    <small>{gallery ? `${labels.length} RELATED MOMENTS` : label}</small>
   </div>
 }
 
