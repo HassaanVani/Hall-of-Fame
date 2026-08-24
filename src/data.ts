@@ -44,7 +44,7 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
       { eyebrow: 'THE LONG ARC // 01', title: 'A very fast transformation.', copy: 'Freshman-year Science Bowl started with me as a really bad physics main. Two years later, I was taking your physics class twice at once because I wanted more time in the room. The before-and-after was accelerated, but it was real.', media: ['Freshman year // getting started', 'Junior year // physics twice over'], images: ['/photos/tymeson-freshman.jpg', '/photos/tymeson-group.jpg'] },
       { eyebrow: 'MONTE CARLO // 02', title: 'Monte Carlo was the answer.', copy: 'I got obsessed with the idea that a simulation could settle a question when intuition could not. The Die Hard argument became one million trials, angular momentum, falling dynamics, and a 48.88% window-break result. Later, that same Monte Carlo instinct helped me clutch a Science Bowl regionals question.', stat: '48.88%', statLabel: 'WINDOW-BREAK SIMULATIONS', media: 'Die Hard Monte Carlo analysis', image: '/photos/die-hard-analysis.png' },
       { eyebrow: 'STUDY SYSTEM // 03', title: 'Too much time, in a good way.', copy: 'I formulated the system in class, built the material, and made practice tests with Monte Carlo so we could talk about Swamp questions. Then I remade it for Regents cluster questions and used it to predict final-exam questions. It became less of a study guide and more of a whole test-making platform.', media: ['Whiteboard plan', 'Midterm Monte Carlo', 'Regents cluster questions', 'Finals prediction'], images: ['/photos/jeff-whiteboard.jpg', '/photos/midterm-monte-carlo.png', '/photos/cluster-questions.png', '/photos/finals-prediction.png'] },
-      { eyebrow: 'ELECTROMAGNETISM // 04', title: 'Thirty-eight out of thirty-eight.', copy: 'I was the only student across three classes to earn a 38/38 on the electromagnetism test. You even had to curve the test down.', stat: '38/38', statLabel: 'ELECTROMAGNETISM', media: '38/38 electromagnetism result', image: '/photos/physics-38-38.jpg' },
+      { eyebrow: 'ELECTROMAGNETISM // 04', title: 'Thirty-eight out of thirty-eight.', copy: 'I was the only student across three classes to earn a 38/38 on the electromagnetism test. You even had to curve the test down. I took the picture for the accomplishment please let it slide...', stat: '38/38', statLabel: 'ELECTROMAGNETISM', media: '38/38 electromagnetism result', image: '/photos/physics-38-38.jpg' },
       { eyebrow: 'MR. PHYSICS // 05', title: 'Four AP Physics 5s.', copy: 'After self-studying all four AP Physics exams in your orbit, I sent the screenshot and called myself “Mr. Physics.” I never told you, but I actually got a 5 in every one of the 10 APs I took.', stat: '4 × 5', statLabel: 'AP PHYSICS SCORES', media: 'Four AP Physics 5s', image: '/photos/four-fives.png' }
     ],
     archive: [
@@ -63,7 +63,7 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
     unsaid: [
       'Thank you for never making curiosity feel like a distraction. You made room for the question behind the question.',
       'I enjoyed and will remember everything we always talked about in class that wasn\'t on topic, from Lockheed Martin to ping pong on the long table to "sticktoitiveness".',
-      'Your class was my first ever formal Physics class, and even though I had a passion I have to attribute my steadfastness to you, especially in the second half. At some points it barely felt like a class, I just had fun time while doing a random physics lab.'
+      'Your class was my first ever formal Physics class (I didn\'t actually know too much mathematical Physics before!), and even though I had a passion I have to attribute my steadfastness to you, especially in the second half. At some points it barely felt like a class, I just had fun time while doing a random physics lab.'
     ],
     request: 'As I move forward, I would be honored if you would write a letter of recommendation for me. I hope it can reflect the curiosity, initiative, and joy in learning that your classroom made possible.'
   },
@@ -91,7 +91,8 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
     ],
     unsaid: [
       'Thank you for seeing something in the work before it was polished. You gave me hard problems, trusted me with real systems, and let me become someone other people could rely on.',
-      'I came into class to learn Java. I am leaving with a much larger idea of what it means to build: make something useful, make it clear, and make the people around you more capable.'
+      'I came into class to learn Java. I am leaving with a much larger idea of what it means to build: make something useful, make it clear, and make the people around you more capable.',
+      'I did NOT know programming that well at all, but I knew I wanted to. It was your push that made me truly exceptional'
     ],
     request: 'As I head into what comes next, I would be so grateful if you would write a letter of recommendation for me. Your view of my growth from Java student to builder and collaborator would be especially meaningful.'
   }
