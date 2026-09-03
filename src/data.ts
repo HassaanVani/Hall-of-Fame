@@ -51,6 +51,7 @@ export const teachers: Record<Teacher['slug'], Teacher> = {
       { title: 'Science Bowl, regional second', copy: 'We took second at regionals together, with first still squarely in sight next year.', media: [{ kind: 'image', src: '/photos/science-bowl-second.jpg', label: 'Science Bowl regional second place' }] },
       { title: 'Capacitor lore', copy: 'A parallel-plate capacitor, concern over accidental shocks, and a spectacular capacitor explosion caught on video.', media: [{ kind: 'video', src: '/videos/blowing-up-capacitor.mov', label: 'Capacitor explosion video' }] },
       { title: 'Cluster questions', copy: 'When the Regents became cluster-based, the test generator gained another layer and produced a dozen new practice clusters.' },
+      { title: 'Lockheed Martin', copy: 'I drew quite a bit of logos on my tests in the second semester... From what I remember, a lot of Lockheed Martin & Northrop Grumman on electromagnetism, and a lot of OIL on Sound Waves, and also a b2 on the Final. I hope that entertained you through the mindless grading!' },
       { title: 'Final-exam precision', copy: 'The generator forecast two trick questions; the final ended at 119/120, one point short only because an electric-field direction was omitted.' },
       { title: 'Beyond class', copy: 'Your confidence in my coding even led to a job through your pickleball buddies.' }
     ],
